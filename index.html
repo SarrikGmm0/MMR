@@ -3,50 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Калькулятор ММР</title>
+    <title>Расчёт ММР</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
-        }
-        input {
-            margin: 10px;
-            padding: 5px;
-        }
-        button {
-            padding: 10px 20px;
-            background: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background: #45a049;
-        }
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        input, select, button { margin: 10px; padding: 10px; font-size: 16px; }
     </style>
 </head>
 <body>
-<h1>🔥 Калькулятор ММР 🔥</h1>
-<p>Введите количество убийств и смертей:</p>
-<input type="number" id="kills" placeholder="Убийства">
-<input type="number" id="deaths" placeholder="Смерти">
-<br>
+<h1>Расчёт ММР</h1>
+<label for="kills">Убийства:</label>
+<input type="number" id="kills" min="0">
+<label for="deaths">Смерти:</label>
+<input type="number" id="deaths" min="0">
+<label for="result">Результат:</label>
+<select id="result">
+    <option value="Победа">Победа</option>
+    <option value="Поражение">Поражение</option>
+</select>
 <button onclick="calculateMMR()">Рассчитать</button>
-<p id="result"></p>
-
+<p id="resultText"></p>
 <script>
-    function calculateMMR() {
-        let kills = parseInt(document.getElementById("kills").value);
-        let deaths = parseInt(document.getElementById("deaths").value);
-        if (isNaN(kills) || isNaN(deaths)) {
-            document.getElementById("result").innerText = "Введите корректные значения!";
-            return;
-        }
-        let kd = kills / (deaths === 0 ? 1 : deaths);
-        let mmr = Math.round(kd * 100); // Примерная формула (можешь подставить свою)
-        document.getElementById("result").innerText = "Ваш КД: " + kd.toFixed(2) + "\nПолученный ММР: " + mmr;
+function calculateMMR() {
+    let kills = parseInt(document.getElementById("kills").value);
+    let deaths = parseInt(document.getElementById("deaths").value);
+    let result = document.getElementById("result").value;
+    if (isNaN(kills) || isNaN(deaths) || deaths < 0 || kills < 0) {
+        document.getElementById("resultText").innerText = "Введите корректные данные";
+        return;
     }
+    let kd = deaths === 0 ? kills : kills / deaths;
+    let mmr = 0;
+    if (result === "Победа") {
+        if (kd > 2.0) mmr = Math.floor(Math.random() * (99 - 80 + 1) + 80);
+        else if (kd >= 1.0) mmr = Math.floor(Math.random() * (79 - 60 + 1) + 60);
+        else if (kd >= 0.5) mmr = Math.floor(Math.random() * (59 - 40 + 1) + 40);
+        else mmr = Math.floor(Math.random() * (39 - 20 + 1) + 20);
+    } else if (result === "Поражение") {
+        if (kd > 2.0) mmr = Math.floor(Math.random() * (-10 - (-30) + 1) - 30);
+        else if (kd >= 1.0) mmr = Math.floor(Math.random() * (-31 - (-50) + 1) - 50);
+        else if (kd >= 0.5) mmr = Math.floor(Math.random() * (-51 - (-70) + 1) - 70);
+        else mmr = Math.floor(Math.random() * (-71 - (-90) + 1) - 90);
+    }
+    document.getElementById("resultText").innerText = `Ваш КД: ${kd.toFixed(2)}\nПолученный ММР: ${mmr}`;
+}
 </script>
 </body>
 </html>
