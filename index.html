@@ -4,9 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Калькулятор ММР</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        input {
+            margin: 10px;
+            padding: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <h1>Привет, мир!</h1>
-    <p>Сайт работает!</p>
+<h1>🔥 Калькулятор ММР 🔥</h1>
+<p>Введите количество убийств и смертей:</p>
+<input type="number" id="kills" placeholder="Убийства">
+<input type="number" id="deaths" placeholder="Смерти">
+<br>
+<button onclick="calculateMMR()">Рассчитать</button>
+<p id="result"></p>
+
+<script>
+    function calculateMMR() {
+        let kills = parseInt(document.getElementById("kills").value);
+        let deaths = parseInt(document.getElementById("deaths").value);
+        if (isNaN(kills) || isNaN(deaths)) {
+            document.getElementById("result").innerText = "Введите корректные значения!";
+            return;
+        }
+        let kd = kills / (deaths === 0 ? 1 : deaths);
+        let mmr = Math.round(kd * 100); // Примерная формула (можешь подставить свою)
+        document.getElementById("result").innerText = "Ваш КД: " + kd.toFixed(2) + "\nПолученный ММР: " + mmr;
+    }
+</script>
 </body>
 </html>
