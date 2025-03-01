@@ -1,72 +1,12 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { motion } from "framer-motion";
-
-export default function MMRCalculator() {
-  const [kd, setKd] = useState(0);
-  const [result, setResult] = useState("победа");
-  const [mmr, setMmr] = useState(null);
-  const [showMenu, setShowMenu] = useState(false);
-
-  const calculateMMR = () => {
-    let newMmr = 0;
-    if (result === "победа") {
-      if (kd > 2.0) newMmr = Math.floor(Math.random() * (99 - 80 + 1)) + 80;
-      else if (kd >= 1.0) newMmr = Math.floor(Math.random() * (79 - 60 + 1)) + 60;
-      else if (kd >= 0.5) newMmr = Math.floor(Math.random() * (59 - 40 + 1)) + 40;
-      else newMmr = Math.floor(Math.random() * (39 - 20 + 1)) + 20;
-    } else {
-      if (kd > 2.0) newMmr = Math.floor(Math.random() * (-10 - -30 + 1)) - 30;
-      else if (kd >= 1.0) newMmr = Math.floor(Math.random() * (-31 - -50 + 1)) - 50;
-      else if (kd >= 0.5) newMmr = Math.floor(Math.random() * (-51 - -70 + 1)) - 70;
-      else newMmr = Math.floor(Math.random() * (-71 - -90 + 1)) - 90;
-    }
-    setMmr(newMmr);
-  };
-
-  return (
-    <div className="flex flex-col items-center gap-4 p-4">
-      <Card className="w-96">
-        <CardContent className="flex flex-col gap-4 p-4">
-          <input
-            type="number"
-            placeholder="K/D"
-            value={kd}
-            onChange={(e) => setKd(parseFloat(e.target.value))}
-            className="p-2 border rounded w-full"
-          />
-          <select
-            value={result}
-            onChange={(e) => setResult(e.target.value)}
-            className="p-2 border rounded w-full"
-          >
-            <option value="победа">Победа</option>
-            <option value="поражение">Поражение</option>
-          </select>
-          <Button onClick={calculateMMR}>Рассчитать MMR</Button>
-          {mmr !== null && <div className="text-xl">Ваш MMR: {mmr}</div>}
-        </CardContent>
-      </Card>
-
-      <Button onClick={() => setShowMenu(!showMenu)} className="absolute top-4 right-4">
-        ☰
-      </Button>
-
-      {showMenu && (
-        <motion.div
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: 100 }}
-          className="absolute top-0 right-0 w-64 h-full bg-gray-800 text-white p-4 shadow-lg flex flex-col gap-4"
-        >
-          <div className="text-xl">Профиль</div>
-          <Button className="bg-gray-700">Настройки профиля</Button>
-          <Button className="bg-gray-700">История игр</Button>
-          <Button className="bg-gray-700">О приложении</Button>
-          <Button className="bg-red-600 mt-auto">Выйти</Button>
-        </motion.div>
-      )}
-    </div>
-  );
-}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MMR Calculator</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>
